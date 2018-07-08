@@ -144,6 +144,7 @@ export class ModalComponent implements AfterViewInit {
     const component = this.container.createComponent(componentFactory);
     //Init data and detectChanges  
     ((component.instance)).Data = this.Data;
+    ((component.instance)).ModalId = this.uniqueID;
     component.changeDetectorRef.detectChanges();
   }
 

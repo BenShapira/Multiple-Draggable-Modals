@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
       <div class="header draggable">Modal Header <span class="close">X</span></div>
       <div>
         {{Data.Name}}
+        {{ModalId}}
       </div>
     </div>
   `,
@@ -32,6 +33,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExampleModalComponent implements OnInit {
   Data:any;
+  ModalId:any;
   constructor() {}
 
   ngOnInit() {}
