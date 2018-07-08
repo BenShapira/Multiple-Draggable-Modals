@@ -1,10 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ExampleModalComponent } from './example-modal.component';
+import { MultipleDraggableModalsComponent } from 'multiple-draggable-modals';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  template: `
+  <button (click)="OpenModal()">Add Modal</button>
+  <button (click)="RemoveAll()">Remove all</button>
+  <multiple-draggable-modals #modals></multiple-draggable-modals>
+  `,
 })
-export class AppComponent {
-  title = 'app';
+export class AppComponent implements OnInit {
+
+  @ViewChild(MultipleDraggableModalsComponent) modals: MultipleDraggableModalsComponent; // <--
+
+  constructor(){}
+  ngOnInit(){
+  }
+
+  OpenModal(){
+    this.modals.AddModal(ExampleModalComponent,{Name:'MyName', ArrayOfData:[1,2,3,4]},false,true,true);
+  }
+  RemoveAll(){
+    this.modals.RemoveAll();
+  }
 }

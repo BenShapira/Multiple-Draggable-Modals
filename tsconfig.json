@@ -15,6 +15,14 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "multiple-draggable-modals": [
+        "dist/multiple-draggable-modals"
+      ],
+      "multiple-draggable-modals/*": [
+        "dist/multiple-draggable-modals/*"
+      ]
+    }
   }
 }

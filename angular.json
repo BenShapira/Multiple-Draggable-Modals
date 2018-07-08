@@ -121,6 +121,46 @@
           }
         }
       }
+    },
+    "multiple-draggable-modals": {
+      "root": "projects/multiple-draggable-modals",
+      "sourceRoot": "projects/multiple-draggable-modals/src",
+      "projectType": "library",
+      "prefix": "enl",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/multiple-draggable-modals/tsconfig.lib.json",
+            "project": "projects/multiple-draggable-modals/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/multiple-draggable-modals/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/multiple-draggable-modals/src/test.ts",
+            "tsConfig": "projects/multiple-draggable-modals/tsconfig.spec.json",
+            "karmaConfig": "projects/multiple-draggable-modals/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/multiple-draggable-modals/tsconfig.lib.json",
+              "projects/multiple-draggable-modals/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "multiple-draggable-modals-app"

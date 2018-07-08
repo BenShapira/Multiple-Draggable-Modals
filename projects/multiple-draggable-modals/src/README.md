@@ -163,3 +163,7 @@ Following the example above will create a modal window of the component `Example
 
    Simple as it sounds, removes all the open modals.
    
+
+
+
+
