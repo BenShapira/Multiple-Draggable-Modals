@@ -88,13 +88,17 @@ export class ModalComponent implements AfterViewInit {
     else {
         document.getElementById("modal-" + this.uniqueID).style.opacity = "1";
     }
-    //Close modal and destroy on .close click
-    document.getElementById("modal-" + this.uniqueID).getElementsByClassName("close")[0].addEventListener("click", () => {
-        document.getElementById("modal-" + this.uniqueID).style.opacity = "0";
-        setTimeout(() => {
-            this.Self.destroy();
-        }, 250);
-    });
+    
+    //Close modal and destroy on all .close class click
+    var closeElements =  document.getElementById("modal-" + this.uniqueID).getElementsByClassName("close");
+    for(let i = 0; i < closeElements.length; i++) {
+        closeElements[i].addEventListener("click", ()=> {
+            document.getElementById("modal-" + this.uniqueID).style.opacity = "0";
+            setTimeout(() => {
+                this.Self.destroy();
+            }, 250);
+        });
+    }
   }
 
   @HostListener('document:keydown', ['$event'])

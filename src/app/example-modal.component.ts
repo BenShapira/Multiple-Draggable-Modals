@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
       <div>
         {{Data.Name}}
         {{ModalId}}
+
+        <button class="close">test Close!</button>
       </div>
     </div>
   `,
