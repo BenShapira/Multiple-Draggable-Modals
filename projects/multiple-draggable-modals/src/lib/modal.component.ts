@@ -4,7 +4,7 @@ import { Component, ComponentFactoryResolver, ViewChild, AfterViewInit, ViewCont
   selector: 'app-modal',
   styles: [`
           .multiple-draggable-modal{
-            position:absolute;
+            position:fixed;
             top:10%;
             left:10%;
             outline: none;
