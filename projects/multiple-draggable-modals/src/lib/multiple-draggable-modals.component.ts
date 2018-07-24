@@ -9,12 +9,13 @@ export class MultipleDraggableModalsComponent {
   
   @ViewChild('modalsContainer', { read: ViewContainerRef }) container;    
   Component;
+  ModalsArray:any = [];
 
   constructor(private componentFactoryResolver:ComponentFactoryResolver) { 
     this.Component = ModalComponent;
   }
 
-  AddModal(componentType, data:any = {}, backdrop = false, escape = false, animation = true, center = true, position:{Top:string, Left:string} = {Top:"10%", Left:"10%"}) {
+  AddModal(modalName="", componentType, data:any = {}, backdrop = false, escape = false, animation = true, center = true, position:{Top:string, Left:string} = {Top:"10%", Left:"10%"}) {
     // Create component 
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.Component);
     const component = this.container.createComponent(componentFactory);
@@ -29,6 +30,9 @@ export class MultipleDraggableModalsComponent {
     component.instance.ModalBackdrop = backdrop;
     component.instance.ModalEscape = escape;
     component.instance.Animation = animation;
+    
+    //add to modals array
+    this.ModalsArray.push({Name:modalName, Id:uniqueID});
 
     //returns the modal uniqueID for future use.
     return uniqueID;
@@ -38,8 +42,17 @@ export class MultipleDraggableModalsComponent {
     (<HTMLElement>(document.getElementById("modal-" + modalId).getElementsByClassName("close")[0])).click();
   }
 
+  RemoveModalFromArray(modalId){
+    for (var i = this.ModalsArray.length - 1; i >= 0; --i) {
+      if (this.ModalsArray[i].Id == modalId) {
+        this.ModalsArray.splice(i,1);
+      }
+    } 
+  }
+
   RemoveAll() {
     this.container.clear();
+    this.ModalsArray = [];
   }
 
 }

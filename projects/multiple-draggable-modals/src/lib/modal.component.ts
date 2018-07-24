@@ -1,4 +1,5 @@
 import { Component, ComponentFactoryResolver, ViewChild, AfterViewInit, ViewContainerRef, HostListener } from '@angular/core';
+import { MultipleDraggableModalsComponent } from './multiple-draggable-modals.component'; 
 
 @Component({
   selector: 'app-modal',
@@ -56,7 +57,7 @@ export class ModalComponent implements AfterViewInit {
   Animation:boolean = true;
   
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private modals:MultipleDraggableModalsComponent) {}
 
   ngAfterViewInit() {
     //Initiate component body
@@ -93,12 +94,17 @@ export class ModalComponent implements AfterViewInit {
     var closeElements =  document.getElementById("modal-" + this.uniqueID).getElementsByClassName("close");
     for(let i = 0; i < closeElements.length; i++) {
         closeElements[i].addEventListener("click", ()=> {
-            document.getElementById("modal-" + this.uniqueID).style.opacity = "0";
-            setTimeout(() => {
-                this.Self.destroy();
-            }, 250);
+            this.modals.RemoveModalFromArray(this.uniqueID);
+            this.DestroyModal();
         });
     }
+  }
+
+  DestroyModal(){
+    document.getElementById("modal-" + this.uniqueID).style.opacity = "0";
+    setTimeout(() => {
+        this.Self.destroy();
+    }, 250);
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -195,16 +201,23 @@ export class ModalComponent implements AfterViewInit {
         }
     }
 
-        /* Set draggable by draggable class*/
-        (<HTMLElement>(document.getElementById(elmnt.id).getElementsByClassName("draggable")[0])).onmousedown = dragMouseDown;
+    /* Set draggable by draggable class*/
+    var dragElements = document.getElementById(elmnt.id).getElementsByClassName("draggable");
+    for(let i = 0; i < dragElements.length; i++) {
+        (<HTMLElement>(dragElements[i])).onmousedown = dragMouseDown;
+    }
+
   }
 
   TouchDragElement(element) {
     // AddListener to every touch event
-    element.addEventListener("touchstart", this.touchHandler, true);
-    element.addEventListener("touchmove", this.touchHandler, true);
-    element.addEventListener("touchend", this.touchHandler, true);
-    element.addEventListener("touchcancel", this.touchHandler, true);
+    var dragElements = document.getElementById("modal-" + this.uniqueID).getElementsByClassName("draggable");
+    for(let i = 0; i < dragElements.length; i++) {
+        dragElements[i].addEventListener("touchstart", this.touchHandler, true);
+        dragElements[i].addEventListener("touchmove", this.touchHandler, true);
+        dragElements[i].addEventListener("touchend", this.touchHandler, true);
+        dragElements[i].addEventListener("touchcancel", this.touchHandler, true);
+    }
   }
 
   touchHandler(event) {

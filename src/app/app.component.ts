@@ -19,7 +19,9 @@ export class AppComponent implements OnInit {
   }
 
   OpenModal(){
-    this.modals.AddModal(ExampleModalComponent,{Name:'MyName', ArrayOfData:[1,2,3,4]},false,true,true);
+    this.modals.AddModal("ModalName" ,ExampleModalComponent,{Name:'MyName', ArrayOfData:[1,2,3,4]},false,true,true,false,{Top:"10%", Left:"10%"});
+
+    console.log(this.modals.ModalsArray);
   }
   RemoveAll(){
     this.modals.RemoveAll();

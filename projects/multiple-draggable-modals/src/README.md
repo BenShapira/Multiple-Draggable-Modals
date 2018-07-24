@@ -70,7 +70,7 @@ export class AppComponent implements OnInit {
   ngOnInit(){}
 
   OpenModal(){
-    this.modals.AddModal(ExampleComponent,{Name:'MyName', ArrayOfData:[1,2,3,4]},false,true,true);
+    this.modals.AddModal("ModalName" ,ExampleModalComponent,{Name:'MyName', ArrayOfData:[1,2,3,4]},true,true,true,false,{Top:"10%", Left:"10%"});    
   }
   RemoveAll(){
     this.modals.RemoveAll();
@@ -135,7 +135,9 @@ Following the example above will create a modal window of the component `Example
 ### Methods Available
 
 
- **-AddModal(ComponentType, Data, Backdrop, Escape, Animation, Center, Position) : returns the modal Id**
+ **-AddModal(ModalName, ComponentType, Data, Backdrop, Escape, Animation, Center, Position) : returns the modal Id**
+
+    ModalName = String, used to identify a modal inside the container.
 
     ComponentType = The component type that you want to use as a modal.
 
@@ -152,7 +154,7 @@ Following the example above will create a modal window of the component `Example
     Position = Object {Top:String, Left:String}, custom position to the window, will only work of center is set to false.
 
 ```typescript
-    var modal = this.modals.AddModal(ExampleComponent,{Name:'MyName', ArrayOfData:[1,2,3,4]},false,true,true,true, {Top:"30%",Left:"17%"});
+    var modal = this.modals.AddModal("ModalName", ExampleComponent,{Name:'MyName', ArrayOfData:[1,2,3,4]},false,true,true,true, {Top:"30%",Left:"17%"});
 ```
 
  **-RemoveModal(modalId)**
