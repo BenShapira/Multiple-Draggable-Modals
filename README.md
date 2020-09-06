@@ -19,63 +19,90 @@ npm install multiple-draggable-modals
 ```
 
 ## Demo
-[Plunker](https://next.plnkr.co/edit/1ZOKnwwddW6TsRHP?open=lib%2Fapp.ts)
+[StackBlitz](https://stackblitz.com/edit/angular-ivy-bhhabh?)
 
 ## Usage
-In your application root module definition import `MultipleDraggableModalsModule`
-And add the component you'd like to use as a modal to the entryComponents array and declarations array:
+In your application root module definition import `MultipleDraggableModalsModule` and the Component which you would like to use as a modal.
 
 ```typescript
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+
 import { AppComponent } from './app.component';
-//Module - 
-import { MultipleDraggableModalsModule } from 'multiple-draggable-modals';
-//Component which you would like to use as a modal - 
 import { ExampleComponent } from './example.component';
 
+import { MultipleDraggableModalsModule } from 'multiple-draggable-modals';
+
 @NgModule({
-  declarations: [AppComponent,ExampleComponent,], // <--
-  imports: [BrowserModule,
-    MultipleDraggableModalsModule, // <--
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
-  entryComponents: [ExampleComponent] // <--
+  imports:      [ BrowserModule, FormsModule, MultipleDraggableModalsModule ],
+  declarations: [ AppComponent, ExampleComponent ],
+  bootstrap:    [ AppComponent ]
 })
 export class AppModule { }
-
 ```
+
 In your application where you wish to use the library, import `MultipleDraggableModalsComponent` and the component you wish to use as a modal, add the tags to your template and refrence it from your component ts file.
 
 **app.ts -**
 ```typescript
-import { Component, OnInit, ViewChild } from '@angular/core';
+//our root app component
+import { Component, ViewChild } from '@angular/core';
 import { MultipleDraggableModalsComponent } from 'multiple-draggable-modals';
+
+//Component which you would like to use as a modal - 
 import { ExampleComponent } from './example.component';
 
 @Component({
-  selector: 'app-root',
+  selector: 'my-app',
   template: `
+  <div class="field">
+  <label>Data : </label>
+   <input id="modal-data" type="text" [(ngModel)]="Data">
+  </div>
+
+  <div class="field">
+  <label>Backdrop : </label> 
+  <input id="modal-backdrop" type="checkbox" [(ngModel)]="Backdrop">
+  </div>
+
+  <div class="field">
+  <label>Escape : </label> 
+  <input id="modal-escape" type="checkbox" [(ngModel)]="Escape">
+  </div>
+
+  <div class="field">
+  <label>Animation : </label> 
+  <input id="modal-animation" type="checkbox" [(ngModel)]="Animation">
+  </div>
+
+  <div class="buttons">
   <button (click)="OpenModal()">Add Modal</button>
   <button (click)="RemoveAll()">Remove all</button>
+  </div>
+  
   <multiple-draggable-modals #modals></multiple-draggable-modals>
-  `
+  `,
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
+  Data:any; // Property which can be used to transfer any kind of data to the modal.
+  Backdrop:boolean = false;
+  Escape:boolean = false;
+  Animation:boolean = true;
 
-  @ViewChild(MultipleDraggableModalsComponent) modals: MultipleDraggableModalsComponent; // <--
+  @ViewChild(MultipleDraggableModalsComponent, {static: false}) modals: MultipleDraggableModalsComponent; // <--
 
   constructor(){}
   ngOnInit(){}
 
   OpenModal(){
-    this.modals.AddModal("ModalName" ,ExampleModalComponent,{Name:'MyName', ArrayOfData:[1,2,3,4]},true,true,true,false,{Top:"10%", Left:"10%"});    
+    this.modals.AddModal("ExampleName",ExampleComponent,this.Data,this.Backdrop,this.Escape,this.Animation);
   }
   RemoveAll(){
     this.modals.RemoveAll();
   }
 }
+
 ```
 
 **ExampleComponent.ts-**
@@ -87,31 +114,12 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-example',
   template: `
     <div class="modal-container">
-      <div class="header draggable">Modal Header <span class="close">X</span></div>
+      <div class="header draggable">Draggable<span class="close">X</span></div>
       <div>
-        {{Data.Name}}
+        {{Data}}
       </div>
     </div>
-  `,
-  styles: [`
-    .modal-container{
-      width:150px;
-      height:150px;
-      border: 1px solid black;
-      border-radius: 5px;
-      padding:5px;
-      background-color:white;
-    }
-    .header{
-      border-bottom:1px solid black;
-      cursor:move;
-    }
-    .close{
-      float:right;
-      font-weight:5px;
-      cursor:pointer;
-    }
-  `]
+  `
 })
 export class ExampleComponent implements OnInit {
   Data:any;
@@ -119,7 +127,6 @@ export class ExampleComponent implements OnInit {
 
   ngOnInit() {}
 }
-
 ```
 
 
